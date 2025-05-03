@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HeadAutoaim Injector</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', monospace;
+    }
+
+    body {
+      margin: 0;
+      background: #101010;
+      color: #ddd;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 1rem 2rem;
+      background: #181818;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.3rem;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #1b1b1b;
+      border: 1px solid #2a2a2a;
+      border-radius: 0.8rem;
+      padding: 1.5rem;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: #bbb;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.4rem;
+    }
+
+    textarea {
+      width: 100%;
+      height: 260px;
+      background: #111;
+      color: #aaa;
+      border: 1px solid #333;
+      border-radius: 0.4rem;
+      padding: 1rem;
+      font-size: 0.9rem;
+      resize: none;
+    }
+
+    .action-btn {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.9rem;
+      background: #2e2e2e;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: #3b3b3b;
+    }
+
+    .terminal {
+      background: #000;
+      color: #4caf50;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      height: 180px;
+      overflow-y: auto;
+      border: 1px solid #2a2a2a;
+      margin-top: 1rem;
+    }
+
+    .progress-container {
+      margin-top: 1rem;
+      width: 100%;
+      height: 10px;
+      background: #222;
+      border-radius: 0px;
+      overflow: hidden;
+      display: none;
+      border: 1px solid #333;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #4caf50, #8bc34a);
+      border-radius: 0px;
+      text-align: center;
+      color: #fff;
+      font-size: 0.7rem;
+      line-height: 10px;
+    }
+
+    footer {
+      padding: 1rem 2rem;
+      background: #181818;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #666;
+      border-top: 1px solid #2a2a2a;
+    }
+
+    @media (min-width: 700px) {
+      main {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HeadAutoaim Injector</h1>
+    <div>v1.3.7</div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>HeadAutoaim Coding</h2>
+      <textarea readonly id="Base64Config">ewogICJSZWdpc3RyeSI6IHsKICAgICJLZXkiOiB7CiAgICAgICJQYXRoIjogIkhLRVlfQ1VSUkVOVF9VU0VSXFxDb250cm9sIFBhbmVsXFxNb3VzZSIsCiAgICAgICJFbnRyaWVzIjogWwogICAgICAgIHsiTmFtZSI6ICJBY3RpdmVXaW5kb3dUcmFja2luZyIsICJUeXBlIjogImR3b3JkIiwgIlZhbHVlIjogIjAwMDAwMDAwIn0sCiAgICAgICAgeyJOYW1lIjogIkJlZXAiLCAiVHlwZSI6ICJzdHJpbmciLCAiVmFsdWUiOiAiTm8ifSwKICAgICAgICB7Ik5hbWUiOiAiRG91YmxlQ2xpY2tIZWlnaHQiLCAiVHlwZSI6ICJzdHJpbmciLCAiVmFsdWUiOiAiNCJ9LAogICAgICAgIHsiTmFtZSI6ICJEb3VibGVDbGlja1NwZWVkIiwgIlR5cGUiOiAic3RyaW5nIiwgIlZhbHVlIjogIjY1MCJ9LAogICAgICAgIHsiTmFtZSI6ICJNb3VzZVNlbnNpdGl2aXR5IiwgIlR5cGUiOiAic3RyaW5nIiwgIlZhbHVlIjogIjYifSwKICAgICAgICB7Ik5hbWUiOiAiTW91c2VTcGVlZCIsICJUeXBlIjogInN0cmluZyIsICJWYWx1ZSI6ICIwIn0KICAgICAgXQogICAgfQogIH0sCiAgIkdhbWVDb25maWd1cmF0aW9uIjogewogICAgImZyZWVmaXJlbWF4LmFwcH5bc2Vuc2l0aXZpdHldIjogIiIsCiAgICAiZGlyZWN0b3J5IjogInN0b3JhZ2UvZW11bGF0ZWQvMC9BbmRyb2lkL2RhdGEvY29tLmR0cy5mcmVlZmlyZW1heC9maWxlcyIsCiAgICAibWFpblBhdGgiOiAibWFpbi4yMDE5MTE0OTM0LmNvbS5kdHMuZnJlZWZpcmVtYXgub2JiIiwKICAgICJ2ZXJzaW9uSW5mbyI6ICIyLjEwOS4xIgogIH0sCiAgIkZpbGVzIjogWyJjb2RpbmcueG1sIiwgImNvbmZpZy54bWwiLCAiZmlsZS54bWwiXSwKICAiTUNvbmZpZ3VyYXRpb25zIjogWyJhaW1oZWFkc2hvdC54bWwiXSwKICAiU2NyaXB0IjogewogICAgImFpbWxvY2suZW5lbXl+dGFyZ2V0IjogIlwiSEVBRFwiIiwKICAgICJhdXRvYWltLnRhcmdldC5wcmlvcml0eSI6ICI4MCUgSEVBRCwgMjAlIEJPRFkiLAogICAgImFpbWxvY2suc3RyZW5ndGgiOiAiMC44IiwKICAgICJhdXRvYWltLnN0cmVuZ3RoIjogIjAuOCIsCiAgICAiYWltLmFzc2lzdC5lbmFibGVkIjogInRydWUiLAogICAgImFpbWJvdC5hZGFwdGl2ZS5zdGFiaWxpdHkiOiAidHJ1ZSIKICB9LAogICJBZGRpdGlvbmFsQ29uZmlndXJhdGlvbnMiOiBbImRwaS5zY3JlZW4iLCAiYWltYm90LmZmIl0sCiAgIk1Db25maWd1cmF0aW9uc0ZvckFpbUhlYWRzaG90IjogWwogICAgImFpbWhlYWRzaG90LmZmIiwKICAgICJzZW5zaXRpdml0eS53ZWFwb24iLAogICAgImFpbWxvY2suZW5lbXkiLAogICAgInNlbnNpdGl2aXR5LjkwMDAiLAogICAgImFpbWZvdi45MCIsCiAgICAiYWltYm90LmZmIgogIF0sCiAgIkZlYXR1cmVBY3RpdmF0aW9ucyI6IHsKICAgICJjb25maWd1cmF0aW9uLmFpbWJvdCI6ICJvbiIsCiAgICAiY29uZmlndXJhdGlvbi5haW1mb3YuOTAiOiAib24iLAogICAgImNvbmZpZ3VyYXRpb24uYWltbG9jayI6ICJvbiIsCiAgICAiY29uZmlndXJhdGlvbi5haW1yZWRudW1iZXJzIjogIm9uIiwKICAgICJjb25maWd1cmF0aW9uLmRwaTkwMDAiOiAib24iLAogICAgImNvbmZpZ3VyYXRpb24uYW50aWNoZWF0IjogIm9uIiwKICAgICJTeXN0ZW0ud2ViLmNvbmZpZ3VyYXRpb24uU2NyaXB0aW5nIjogIm9uIgogIH0sCiAgIlN5c3RlbUNvbmZpZ3VyYXRpb25zIjogewogICAgInByb2Nlc3NpbmciOiAib24iLAogICAgImNvbmZpZ3VyYXRpb24uZmlsZS5oZWFkc2hvdCI6ICJvbiIsCiAgICAiZmlsZS5jb25maWciOiAib24iLAogICAgImZpbGUuc2NyaXB0IjogIm9uIiwKICAgICJoZWFkc2hvdC5ub2NoZWF0IjogIm9uIiwKICAgICJzY3JpcHQuYWltbG9jayI6ICJvbiIsCiAgICAic2NyaXB0Lm5vYmFubmVkIjogIm9uIiwKICAgICJjb25maWd1cmF0aW9uLmFpbWJvdCI6ICJvbiIsCiAgICAic2NyaXB0LmVhc3loZWFkc2hvdCI6ICJvbiIsCiAgICAic2NyaXB0LnJlZC5kYW1hZ2UubnVtYmVycyI6ICJvbiIsCiAgICAiY29uZmlndXJhdGlvbi5haW1mb3YiOiAib24iLAogICAgImNvbmZpZ3VyYXRpb24uZHBpc2NyZWVuOTAwMCI6ICI5MDAwIiwKICAgICJjb25maWd1cmF0aW9uLjEyMGZwcyI6ICJvbiIsCiAgICAiY29uZmlndXJhdGlvbi4xMjBoeiI6ICJvbiIsCiAgICAiZHBpLnNlbnNpdml0eSI6ICI5MDAwIiwKICAgICJzY3JlZW4uZHBpLjkwMDAiOiAiOTAwMCIsCiAgICAic2Vuc2l2aXR5LnNjcmVlbi54bWwiOiAic2Vuc2l0aXZpdHkuYW5kcm9pZC54bWwiCiAgfSwKICAiRmVhdHVyZU9wdGltaXphdGlvbiI6IHsKICAgICJuYW1lIjogIk9QVElNQUxJU0FTSSIsCiAgICAidGFyZ2V0IjogInNjcmVlbiIsCiAgICAiZGVzY3JpcHRpb24iOiAiQWRkcyBlbnRyaWVzIHRvIHlvdXIgV2ViLmNvbmZpZyBmaWxlIHdoaWNoIGFyZSByZXF1aXJlZCBieSBhbnkgLk5FVCAzLjUgQUpBWC5ORVQgYXBwbGljYXRpb24uIiwKICAgICJibG9ja3MiOiBbImJsb2NrIG5hbWU9XCJPUFRJTUFMSVNBU0lcIiBjb25maWcgc2VjdGlvbnMiXQogIH0sCiAgIkFpbUNvbmZpZ3VyYXRpb25zIjogewogICAgIkFpbUJvdC5oZXgiOiAiOjEwMTAxMDE5MTAxMTEwMzkyOTIyODI4Mzc3NDM4Mjk0NzI5MzYyODgzNjQ3MjkyOTQ3MzkzODQ2MjkzNzM5MjAiLAogICAgIkFpbUFzc2lzdC5oZXgiOiAiOjEwMDEwMjg0OTIwMjk0MjkwMTAxMDEwMjAxMDM5MzkwMzk0ODU5MjAwMTAxODM5MDEwMDAwMDI4NDgzOTkyMTAiLAogICAgIkFpbUxvY2suaGV4IjogIjoxMDAzNzQ3Mzk0ODQwMjk0ODQxMDAzODU5NDAyMDAxNDczOTAxMDQ3NzM3NDczOTEwNDg5MjAyOTUwMDAwMDE0NzkyMDE3NDkzMTg0ODAwMDAwMTQ3MDAwIiwKICAgICJ0b3VjaHNwZWVkLmhleCI6ICI6MTg0NzI4NzQ4Mjg0NzE5Mjc1ODI5NDg4NDEwODQ0NzI5Mjg0NzgyOTI3NDIyMDg0MjkxMDA0ODI5OTQ3MzgyMDAwMDI4NDcyODI4NzQzODE4MzgzOTIwMDAwNDc0MDAwIiwKICAgICJBaW1zcGVlZC5oZXgiOiAiOjEwMDQ3Mzg3NDgyOTEwMzk0NzU3NjUxOTA3NzM5MjkzODM3MzAwMDAwMDE3NjM2NjM5MDE5MzYzNzI5MTg3MzAwMDAwMDE4NDY0NjQ2MTAwMjc0NTMxMjM2ODAwMDAwMTY1NTI5MDAiLAogICAgIkFpbUZvdi5oZXgiOiAiOjMwMDAwNTU2NzU1MDM5Mzc0ODIwMjAxODM3MzkyMDQ4NjkzMDY1MTAwMzc1MzkyMDE2NTI4MDI5MzYzMjgwMjAwMDAiLAogICAgIkFpbWJvdHNwZWVkLmhleCI6ICI6MTAwMDQ4NzQ4NDU3MjkyMDU3MjkxMDU4MjAxMDU3ODIwMjc0ODIwMDAxNjQ4OTEwMjc0NzgxOTEzNzYzNDEwMDU5MTE5MzY2ODEwMTY1Nzg4MjYzMDAwMDAwMjY2Mjg5MzQ2NjEwMDAwMDAiLAogICAgInRvdWNoc3RhYmlsaXR5LmhleCI6ICI6NjAwMDA0MzAwNzE4MjI1NTk5NzYyNTUxMTgwODk1NTAzNDIyOTYzMDE1MzI3MDAwOTg2NDMyNzc1MTgzNjQyOTY0MzcyODUyMTEyMjM2NzQ4ODk5NTI1IgogIH0sCiAgIlRvdWNoQ29udHJvbFNldHRpbmdzIjogewogICAgIkNvbnRyb2wvdG91Y2giOiAieWVzIiwKICAgICJVc2UgdGhlIGZpbmFsIHRvdWNoIHdlYnNpdGUiOiAic3RhYmlsaXR5IiwKICAgICJ0b3VjaC9zdGFiaWxpdHklMTAwIjogIiIsCiAgICAiV2VpZ2h0IHN0YWJpbGl0eSI6ICIxMDAlMTAwIiwKICAgICJUb3VjaCB1cCtzcGVlZCI6ICJ5ZXMiLAogICAgIlRvdWNoIHVwIjogIjExIiwKICAgICJUb3VjaCB3aGVuIGxpZnRpbmcgdXAgZm9yIHN0YWJpbGl0eSI6ICIxIiwKICAgICJTbG93IHRvdWNoIjogIig0KSIsCiAgICAic3BlZWQgdG91Y2giOiAiKDEpIiwKICAgICJMaWZ0IHVwIHNsb3dseSI6ICIoNykiLAogICAgIkxpZnQgdXAgcXVpY2tseSI6ICIoMSkiLAogICAgIkxpZnQgdXAgb24iOiAiKDEybSkiLAogICAgIlRvdWNoIHNwZWVkIjogIjIwMDAwIiwKICAgICJUb3VjaCBzZW5zaXRpdmUiOiAiMTIwMCIKICB9LAogICJUeXBlIjogIlN5c3RlbS5XZWIuQ29uZmlndXJhdGlvbi5TY3JpcHRpbmdHYW1lU2VydmljZVdvcmtBbGxNb2RlIiwKICAiR2FtZUNvbmZpZ3VyYXRpb25zIjogWwogICAgewogICAgICAiQ29uZmlnU2V0dGluZ3MiOiB7CiAgICAgICAgIlNldHRpbmciOiB7CiAgICAgICAgICAibmFtZSI6ICJTZWd1aW1pZW50b0NhYmV6YUNvbk1pcmEiLAogICAgICAgICAgInZhbHVlIjogIjkwIgogICAgICAgIH0KICAgICAgfSwKICAgICAgIkdhbWVEaXJlY3RvcnkiOiB7CiAgICAgICAgIlBhdGgiOiAic3RvcmFnZS9lbXVsYXRlZC8wL0FuZHJvaWQvZGF0YS9jb20uZHRzLmZyZWVmaXJlbWF4L2ZpbGVzIgogICAgICB9LAogICAgICAiTWFpblBhdGgiOiB7CiAgICAgICAgIlBhdGgiOiAibWFpbi4yMDE5MTE0OTM0LmNvbS5kdHMuZnJlZWZpcmVtYXgub2JiIgogICAgICB9LAogICAgICAiVmVyc2lvbkluZm8iOiB7CiAgICAgICAgIlZlcnNpb24iOiAiMi4xMDkuMSIKICAgICAgfQogICAgfQogIF0sCiAgIm1ldGEiOiB7CiAgICAibmFtZSI6ICJIZWFkQXV0b2FpbSBBZHZhbmNlZC5qc29uIiwKICAgICJ2ZXJzaW9uIjogIjMuMi4xLXBybyIsCiAgICAiZ2FtZSI6ICJGcmVlIEZpcmUgTUFYIiwKICAgICJjb21wYXRpYmlsaXR5IjogewogICAgICAib2JiRGlyZWN0b3J5IjogInN0b3JhZ2UvZW11bGF0ZWQvMC9BbmRyb2lkL29iYi9jb20uZHRzLmZyZWVmaXJlbWF4LyIsCiAgICAgICJtaW5HYW1lVmVyc2lvbiI6ICIyLjEwOS4xIiwKICAgICAgImFwaVN1cHBvcnQiOiAidjIrIgogICAgfQogIH0sCiAgImFpbVN5c3RlbSI6IHsKICAgICJlbmFibGVkIjogdHJ1ZSwKICAgICJnbG9iYWxQcmVjaXNpb25MZXZlbCI6IDAuOCwKICAgICJ0YXJnZXRQcmlvcml0eSI6ICJuZWFyZXN0IiwKICAgICJhY3RpdmF0aW9uVG91Y2hSZWdpb24iOiAidGFwL3N3aXBlIG9uIHRoZSBzY3JlZW4iLAogICAgIm1heFRhcmdldERpc3RhbmNlIjogMTUwLjAsCiAgICAic21vb3RoQWltTW92ZW1lbnQiOiB0cnVlLAogICAgInNtb290aGluZ0ZhY3RvciI6IDAuNgogIH0sCiAgImFpbUxvY2siOiB7CiAgICAiZW5hYmxlZCI6IHRydWUsCiAgICAiaW50ZW5zaXR5IjogMC44LAogICAgImxvY2tPblRpbWUiOiAwLjI1LAogICAgInVubG9ja0RlbGF5IjogMC41LAogICAgImxvY2tUb1RhcmdldEJvbmUiOiAiaGVhZCIsCiAgICAibWF4QW5nbGVEZXZpYXRpb24iOiAxNS4wLAogICAgInRyYWNrVGhyb3VnaFdhbGxzIjogZmFsc2UsCiAgICAiaW50ZXJwb2xhdGlvblNwZWVkIjogMC40LAogICAgImxvY2tSYWRpdXMiOiAzNS4wCiAgfSwKICAiYXV0b0FpbSI6IHsKICAgICJlbmFibGVkIjogdHJ1ZSwKICAgICJpbnRlbnNpdHkiOiAwLjgsCiAgICAiYWN0aXZhdGlvblRocmVzaG9sZCI6IDAuNiwKICAgICJhdXRvVGFyZ2V0aW5nRGVsYXkiOiAwLjEsCiAgICAicHJlZGljdE1vdmVtZW50IjogdHJ1ZSwKICAgICJwcmVkaWN0aW9uRmFjdG9yIjogMS4yLAogICAgInRhcmdldEJvbmVzUHJpb3JpdHkiOiBbImhlYWQiXSwKICAgICJyZWFjcXVpcmVUYXJnZXQiOiB0cnVlLAogICAgImZpZWxkT2ZWaWV3IjogNDUuMAogIH0sCiAgImFpbVByZWNpc2lvbiI6IHsKICAgICJlbmFibGVkIjogdHJ1ZSwKICAgICJpbnRlbnNpdHkiOiAwLjgsCiAgICAiYWRhcHRpdmVQcmVjaXNpb24iOiB0cnVlLAogICAgImR5bmFtaWNGb3ZTY2FsaW5nIjogdHJ1ZSwKICAgICJwcmVjaXNpb25ab25lcyI6IHsKICAgICAgImhlYWQiOiAwLjk1LAogICAgICAiY2hlc3QiOiAwLjg1LAogICAgICAicGVsdmlzIjogMC43NSwKICAgICAgImxpbWJzIjogMC42CiAgICB9LAogICAgInJlY29pbENvbXBlbnNhdGlvbiI6IHsKICAgICAgImVuYWJsZWQiOiB0cnVlLAogICAgICAiY29tcGVuc2F0aW9uRmFjdG9yIjogMC42NQogICAgfQogIH0sCiAgInRvdWNoRHluYW1pY3MiOiB7CiAgICAidG91Y2hQcm9maWxlIjogInByb1NlcmllcyIsCiAgICAibGlmdFN0YWJpbGl0eUJvb3N0IjogdHJ1ZSwKICAgICJ0b3VjaERlbGF5IjogNiwKICAgICJzZW5zaXRpdml0eU11bHRpcGxpZXIiOiAxLjQyLAogICAgIm1heFRvdWNoU3BlZWQiOiAyMjAwMCwKICAgICJ0b3VjaEFjY2VsZXJhdGlvbiI6IHsKICAgICAgImVuYWJsZWQiOiB0cnVlLAogICAgICAiY3VydmUiOiAibG9nYXJpdGhtaWMiLAogICAgICAiaW50ZW5zaXR5IjogMC45NAogICAgfQogIH0sCiAgInBlcmZvcm1hbmNlVHVuaW5nIjogewogICAgInRhcmdldEZQUyI6IDEyMCwKICAgICJtaW5GUFMiOiAxMjAsCiAgICAicmVuZGVyQm9vc3QiOiB0cnVlLAogICAgImRwaUVtdWxhdGlvbiI6IDExMDAwLAogICAgInJlc29sdXRpb25Db21wZW5zYXRpb24iOiB0cnVlLAogICAgImVuZXJneVNhdmluZ01vZGUiOiBmYWxzZSwKICAgICJ0aGVybWFsVGhyb3R0bGluZ0J5cGFzcyI6IHRydWUKICB9LAogICJoZXhTaWduYXR1cmVzIjogewogICAgImFpbUJvdCI6ICI6MTAxMDEwMTkxMDExMTAzOTI5MjI4MjgzNzc0MzgyOTQ3MjkzNjI4ODM2NDcyOTI5NDczOTM4NDYyOTM3MzkyMCIsCiAgICAiYWltRm92IjogIjozMDAwMDU1Njc1NTAzOTM3NDgyMDIwMTgzNzM5MjA0ODY5MzA2NTEwMDM3NTM5MjAxNjUyODAyOTM2MzI4MDIwMDAwIiwKICAgICJhaW1TcGVlZCI6ICI6MTAwNDczODc0ODI5MTAzOTQ3NTc2NTE5MDc3MzkyOTM4MzczMDAwMDAwMTc2MzY2MzkwMTkzNjM3MjkxODczMDAwMDAwMTg0NjQ2NDYxMDAyNzQ1MzEyMzY4MDAwMDAxNjU1MjkwMCIsCiAgICAiYWltTG9jayI6ICI6MTAwMzc0NzM5NDg0MDI5NDg0MTAwMzg1OTQwMjAwMTQ3MzkwMTA0NzczNzQ3MzkxMDQ4OTIwMjk1MDAwMDAxNDc5MjAxNzQ5MzE4NDgwMDAwMDE0NzAwMCIsCiAgICAidG91Y2hTdGFiaWxpdHkiOiAiOjYwMDAwNDMwMDcxODIyNTU5OTc2MjU1MTE4MDg5NTUwMzQyMjk2MzAxNTMyNzAwMDk4NjQzMjc3NTE4MzY0Mjk2NDM3Mjg1MjExMjIzNjc0ODg5OTUyNSIKICB9LAogICJzZWN1cml0eSI6IHsKICAgICJhbnRpQmFuIjogdHJ1ZSwKICAgICJtZW1vcnlQcm90ZWN0aW9uIjogdHJ1ZSwKICAgICJzaWduYXR1cmVCeXBhc3MiOiB0cnVlLAogICAgInJvb3RCeXBhc3MiOiB0cnVlCiAgfSwKICAib2JmdXNjYXRpb25MYXllciI6ICJlbmhhbmNlZCIsCiAgImNoZWNrSW50ZWdyaXR5IjogdHJ1ZSwKICAiZGV2ZWxvcGVyTm90ZXMiOiB7CiAgICAiYXV0aG9yIjogIkNyYXp5U2Vuc2kgU3lzdGVtcyIsCiAgICAibGljZW5zZSI6ICJDb21tZXJjaWFsIFVzZSIsCiAgICAia2V5IjogIkE5WDItQzdMTS00NFBRLUtaOTMiLAogICAgIndhcm5pbmciOiAiVXNvIHByb2Zpc3Npb25hbCBhdXRvcml6YWRvLiBSZXByb2R1w6fDo28gcHJvaWJpZGEuIiwKICAgICJzdXBwb3J0IjogIkVtIGRlc2Vudm9sdmltZW50byIKICB9Cn0K==</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Injection Console</h2>
+      <button class="action-btn" onclick="injectConfig()">INJECT CONFIG</button>
+      <div class="terminal" id="terminalLog">Aplicar a Execução do Bypass?</div>
+      <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar">0%</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    CrazySensi System © 2024 — All Rights Reserved
+  </footer>
+
+  <script>
+    function injectConfig() {
+      const progressContainer = document.getElementById("progressContainer");
+      const progressBar = document.getElementById("progressBar");
+      const terminal = document.getElementById("terminalLog");
+      const button = document.querySelector(".action-btn");
+
+      // Reset
+      progressBar.style.width = "0%";
+      progressBar.textContent = "0%";
+      terminal.innerHTML = "";
+      button.disabled = true;
+      button.textContent = "Aplicando...";
+      terminal.style.color = "#4caf50"; // Verde
+
+      progressContainer.style.display = "block";
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          showBypassLines();
+          button.textContent = "Aplicado";
+          button.style.backgroundColor = "#1a7f2e";
+          button.disabled = false;
+          return;
+        }
+        progress += 2;
+        progressBar.style.width = progress + "%";
+        progressBar.textContent = progress + "%";
+      }, 100);
+    }
+
+    function showBypassLines() {
+      const terminal = document.getElementById("terminalLog");
+      const lines = [
+        ">> Initializing injection engine...",
+        ">> Loading configuration file...",
+        ">> Validating structure...",
+        ">> Injecting data packet...",
+        ">> Verifying memory integrity...",
+        ">> Finalizing injection...",
+        ">> Inject Success — Path: /Game/Core/HeadAutoaim.dll"
+      ];
+
+      let i = 0;
+      const lineInterval = setInterval(() => {
+        if (i >= lines.length) {
+          clearInterval(lineInterval);
+          return;
+        }
+        terminal.innerHTML += lines[i] + "<br/>";
+        terminal.scrollTop = terminal.scrollHeight;
+        i++;
+      }, 400); // intervalo entre as linhas
+    }
+  </script>
+</body>
+</html>
